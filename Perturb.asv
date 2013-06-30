@@ -1,0 +1,17 @@
+function out = Perturb(remove_prob, noise_level, add_len_scale, seq)
+len = length(seq);
+out = [];% = zeros(len, size(seq,2));
+for i=1:len
+    prob = rand(1,1);
+    if (prob>remove_prob)
+        continue;
+    else
+        noise = noise_level*rand(1, size(seq,2));
+        out = [out; seq(i,:) + noise];
+        added_cnt = int8(len_scale);
+        for j=1:add_cnt
+            noise = noise_level*rand(1, size(seq,2));
+            out = [out; seq(i,:) + noise];
+        end            
+    end
+end

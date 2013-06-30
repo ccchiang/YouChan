@@ -1,0 +1,20 @@
+function [intvs scores sc]= TraceBack(intv, V, D, S, Cnt, pred)
+n_frames = max(intv(:,2));
+cand_end = find(intv(:,2)==n_frames);
+intvs = cell(length(cand_end), 1);
+scores = zeros(length(cand_end), 1);
+sc = zeros(length(cand_end), 1);
+cnts = zeros(length(cand_end), 1);
+for i=1:length(cand_end)
+    fend = cand_end(i);
+    cnts(i) = Cnt(fend);
+    scores(i) = exp(V(fend)/cnts(i))*exp(-D(fend)/cnts(i));
+    sc(i) = S(fend);
+    list = [fend];
+    p = pred(fend);
+    while ~(p==0)
+        list = [p list];
+        p = pred(p);
+    end
+    intvs{i} = list;
+end
