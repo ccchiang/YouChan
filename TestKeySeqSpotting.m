@@ -209,7 +209,7 @@ best2 = cand_list(find(cand_list(:,5)==min(cand_list(:,5))),:) % Find the best o
 best = cand_list(find(cand_list(:,3)==min(cand_list(:,3))),:) % Find the best one according to min(d1,d2)
 [cand scores] = RemoveRedundant(cand_list(:,1:2), cand_list(:,3));
 len = size(handles.qseq,1);
-len_cond = ((cand(:,2)-cand(:,1)+1)<=2*len)&((cand(:,2)-cand(:,1)+1)>0.5*len);
+len_cond = ((cand(:,2)-cand(:,1)+1)<=1.5*len)&((cand(:,2)-cand(:,1)+1)>0.5*len);
 handles.cand = cand(len_cond,:);
 handles.scores = scores(len_cond);
 durs = {}
