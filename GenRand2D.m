@@ -1,0 +1,9 @@
+function out = GenRand2D(nsample)
+out = rand(nsample, 3);
+%maxv = max(out);
+%angle = rand(1,1)*10*pi;
+%S = [rand(1,1)*10 0;0 rand(1,1)*10];
+%R = [cos(angle) -sin(angle);sin(angle) cos(angle)];
+%T = ones(nsample, 1)*[rand(1,1)*maxv(1) rand(1,1)*maxv(2)];
+%out = out * S * R;
+%out = out - T;

@@ -1,0 +1,10 @@
+format long;
+frames = randn(10, 1);
+%load('frames.txt');
+[intv V D S stdv Cnt pred] = FrameCondense(size(frames,1), frames);
+[intvs score sc] = TraceBack(intv, V, D, S, Cnt, pred);
+% norm_score = score./cnt;
+intv_ids = intvs{score==min(score)}
+ttt = [score sc]
+I = intv(intv_ids,:)
+save('frames.txt','-ascii','frames');
