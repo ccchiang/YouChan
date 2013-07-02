@@ -213,11 +213,11 @@ len_cond = ((cand(:,2)-cand(:,1)+1)<=2*len)&((cand(:,2)-cand(:,1)+1)>0.5*len);
 handles.cand = cand(len_cond,:);
 handles.scores = scores(len_cond);
 durs = {}
-for i=1:length(scores)
-    durs = [durs, [num2str(cand(i,1),'%03d') '-' num2str(cand(i,2),'%03d')]];
+for i=1:length(handles.scores)
+    durs = [durs, [num2str(handles.cand(i,1),'%03d') '-' num2str(handles.cand(i,2),'%03d')]];
 end
 set(handles.listbox3, 'String', durs);
-set(handles.listbox4, 'String', scores);
+set(handles.listbox4, 'String', handles.scores);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton2.
@@ -227,11 +227,13 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.text5, 'String', 'Loading data ...');
 nqframes = load('no_qdata.txt');
+handles.nqframes = zeros(1,length(nqframes));
 for i=1:length(nqframes)
     handles.nqframes(i) = sum(nqframes(1:i));
 end
 handles.nqframes = [0 handles.nqframes];
 ntframes = load('no_tdata.txt');
+handles.ntframes = zeros(1,length(ntframes));
 for i=1:length(ntframes)
     handles.ntframes(i) = sum(ntframes(1:i));
 end
