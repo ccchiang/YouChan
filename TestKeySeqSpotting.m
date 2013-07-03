@@ -54,25 +54,34 @@ function TestKeySeqSpotting_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for TestKeySeqSpotting
 handles.output = hObject;
 % Update handles structure
-flist = dir('Data/test');
-no_of_tdata = length(flist);
-fnamelist = {};%cell(no_of_tdata,1);
-for i=1:no_of_tdata
-    if flist(i).isdir==1
-        continue;
+fd = fopen('qdata_seq.txt', 'r');
+stop = 0;
+fnamelist = {};
+while (stop~=1) 
+    d = fscanf(fd, '%d', 1);
+    fname = fscanf(fd, '%s', 1);
+    if (isempty(d))
+        stop = 1;
+    else
+        fnamelist = [fnamelist;num2str(d,'%3d-') fname];
     end
-    fnamelist = [fnamelist flist(i).name];
 end
+fclose(fd);
 set(handles.listbox1, 'String', fnamelist);
-flist = dir('Data/database');
-no_of_tdata = length(flist);
-fnamelist = {};%cell(no_of_tdata,1);
-for i=1:no_of_tdata
-    if flist(i).isdir==1
-        continue;
+
+fd = fopen('tdata_seq.txt', 'r');
+stop = 0;
+fnamelist = {};
+while (stop~=1) 
+    d = fscanf(fd, '%d', 1);
+    fname = fscanf(fd, '%s', 1);
+    if (isempty(d))
+        stop = 1;
+    else
+        fnamelist = [fnamelist;num2str(d,'%3d-') fname];
     end
-    fnamelist = [fnamelist flist(i).name];
 end
+fclose(fd);
 set(handles.listbox2, 'String', fnamelist);
 
 guidata(hObject, handles);
@@ -104,6 +113,7 @@ index_selected = get(hObject,'Value');
 start = handles.nqframes(index_selected)+1;
 stop = handles.nqframes(index_selected+1);
 handles.qseq = handles.qdata(start:stop,:);
+set(handles.text7, 'String', num2str(size(handles.qseq, 1)));
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
@@ -207,11 +217,10 @@ cand_list = [start_list' end_list'  min(d1',d2') d1' d2'] % Compose all candidat
 best1 = cand_list(find(cand_list(:,4)==min(cand_list(:,4))),:) % Find the best one according to d1 distances
 best2 = cand_list(find(cand_list(:,5)==min(cand_list(:,5))),:) % Find the best one according to d2 distances
 best = cand_list(find(cand_list(:,3)==min(cand_list(:,3))),:) % Find the best one according to min(d1,d2)
-[cand scores] = RemoveRedundant(cand_list(:,1:2), cand_list(:,3));
-len = size(handles.qseq,1);
-len_cond = ((cand(:,2)-cand(:,1)+1)<=1.5*len)&((cand(:,2)-cand(:,1)+1)>0.5*len);
-handles.cand = cand(len_cond,:);
-handles.scores = scores(len_cond);
+scalefactor1 = 2.5;
+scalefactor2 = 0.5;
+len = size(handles.qseq, 1);
+[handles.cand handles.scores] = RemoveRedundant(len, scalefactor1, scalefactor2, cand_list(:,1:2), cand_list(:,3));
 durs = {}
 for i=1:length(handles.scores)
     durs = [durs, [num2str(handles.cand(i,1),'%03d') '-' num2str(handles.cand(i,2),'%03d')]];
@@ -227,13 +236,11 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.text5, 'String', 'Loading data ...');
 nqframes = load('no_qdata.txt');
-handles.nqframes = zeros(1,length(nqframes));
 for i=1:length(nqframes)
     handles.nqframes(i) = sum(nqframes(1:i));
 end
 handles.nqframes = [0 handles.nqframes];
 ntframes = load('no_tdata.txt');
-handles.ntframes = zeros(1,length(ntframes));
 for i=1:length(ntframes)
     handles.ntframes(i) = sum(ntframes(1:i));
 end
