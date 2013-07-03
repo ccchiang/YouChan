@@ -10,3 +10,4 @@ function [out d] = FindEnd(dist)
     %out = FindLocalMin(dist);
     %out = [out length(dist)] %Always add the last frame into the candidate
     d = dist(out)./out;
+    %d = dist(out);
