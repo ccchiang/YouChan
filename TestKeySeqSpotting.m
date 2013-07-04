@@ -252,6 +252,7 @@ durs = {}
 for i=1:length(handles.scores)
     durs = [durs, [num2str(handles.cand(i,1),'%03d') '-' num2str(handles.cand(i,2),'%03d')]];
 end
+set(handles.listbox3, 'Value', 1);
 set(handles.listbox3, 'String', durs);
 set(handles.listbox4, 'String', handles.scores);
 guidata(hObject, handles);
