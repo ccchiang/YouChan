@@ -22,7 +22,7 @@ function varargout = TestKeySeqSpotting(varargin)
 
 % Edit the above text to modify the response to help TestKeySeqSpotting
 
-% Last Modified by GUIDE v2.5 02-Jul-2013 15:24:38
+% Last Modified by GUIDE v2.5 04-Jul-2013 15:38:34
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -57,32 +57,38 @@ handles.output = hObject;
 fd = fopen('qdata_seq.txt', 'r');
 stop = 0;
 fnamelist = {};
+short_fnamelist = {};
 while (stop~=1) 
     d = fscanf(fd, '%d', 1);
     fname = fscanf(fd, '%s', 1);
     if (isempty(d))
         stop = 1;
     else
+        short_fnamelist = [short_fnamelist;fname];
         fnamelist = [fnamelist;num2str(d,'%3d-') fname];
     end
 end
 fclose(fd);
+handles.qfnamelst = short_fnamelist;
 set(handles.listbox1, 'String', fnamelist);
 
 fd = fopen('tdata_seq.txt', 'r');
 stop = 0;
 fnamelist = {};
+short_fnamelist = {};
 while (stop~=1) 
     d = fscanf(fd, '%d', 1);
     fname = fscanf(fd, '%s', 1);
     if (isempty(d))
         stop = 1;
     else
+        short_fnamelist = [short_fnamelist;fname];
         fnamelist = [fnamelist;num2str(d,'%3d-') fname];
     end
 end
 fclose(fd);
 set(handles.listbox2, 'String', fnamelist);
+handles.tfnamelst = short_fnamelist;
 
 guidata(hObject, handles);
 
@@ -165,7 +171,17 @@ function listbox3_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox3 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox3
-
+selected_index = get(hObject, 'Value');
+dur = handles.cand(selected_index,:);
+filename_idx = get(handles.listbox2, 'Value');
+filepath = ['G:\YouChanData\colorImg\' cell2mat(handles.tfnamelst(filename_idx))];
+filepath = filepath(1:length(filepath)-4);
+for i=dur(1):dur(2)
+    filename = [filepath '\' num2str(i) '.png'];
+    TM(i-dur(1)+1) = im2frame(imread(filename));
+end
+handles.TM = TM;
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function listbox3_CreateFcn(hObject, eventdata, handles)
@@ -259,3 +275,22 @@ function listbox3_KeyPressFcn(hObject, eventdata, handles)
 %	Character: character interpretation of the key(s) that was pressed
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+h = figure(1);
+axis image;
+movie(h, handles.QM);
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+h=figure(2);
+axis image;
+movie(h, handles.TM);
