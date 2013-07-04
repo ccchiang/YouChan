@@ -120,7 +120,18 @@ start = handles.nqframes(index_selected)+1;
 stop = handles.nqframes(index_selected+1);
 handles.qseq = handles.qdata(start:stop,:);
 set(handles.text7, 'String', num2str(size(handles.qseq, 1)));
+
+dur = [1 size(handles.qseq,1)];
+filename_idx = get(handles.listbox1, 'Value');
+filepath = ['G:\YouChanData\colorImg\' cell2mat(handles.qfnamelst(filename_idx))];
+filepath = filepath(1:length(filepath)-4);
+for i=dur(1):dur(2)
+    filename = [filepath '\' num2str(i) '.png'];
+    QM(i-dur(1)+1) = im2frame(imread(filename));
+end
+handles.QM = QM;
 guidata(hObject, handles);
+
 
 % --- Executes during object creation, after setting all properties.
 function listbox1_CreateFcn(hObject, eventdata, handles)
@@ -282,15 +293,16 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-h = figure(1);
+h1 = figure(1);
 axis image;
-movie(h, handles.QM);
+movie(h1, handles.QM);
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-h=figure(2);
+
+h2 = figure(2);
 axis image;
-movie(h, handles.TM);
+movie(h2, handles.TM);
