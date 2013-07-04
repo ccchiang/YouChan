@@ -22,7 +22,7 @@ function varargout = TestKeySeqSpotting(varargin)
 
 % Edit the above text to modify the response to help TestKeySeqSpotting
 
-% Last Modified by GUIDE v2.5 04-Jul-2013 15:38:34
+% Last Modified by GUIDE v2.5 04-Jul-2013 20:48:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -263,18 +263,18 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.text5, 'String', 'Loading data ...');
-nqframes = load('no_qdata.txt');
+nqframes = load('no_qdata_m.txt');
 for i=1:length(nqframes)
     handles.nqframes(i) = sum(nqframes(1:i));
 end
 handles.nqframes = [0 handles.nqframes];
-ntframes = load('no_tdata.txt');
+ntframes = load('no_tdata_m.txt');
 for i=1:length(ntframes)
     handles.ntframes(i) = sum(ntframes(1:i));
 end
 handles.ntframes = [0 handles.ntframes];
-handles.qdata = load('qdata_h.txt');
-handles.tdata = load('tdata_h.txt');
+handles.qdata = load('qdata_m.txt');
+handles.tdata = load('tdata_m.txt');
 set(handles.text5, 'String', 'Loading completed.');
 guidata(hObject, handles);
 
@@ -307,3 +307,76 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 h2 = figure(2);
 axis image;
 movie(h2, handles.TM);
+
+
+
+function edit1_Callback(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit1 as text
+%        str2double(get(hObject,'String')) returns contents of edit1 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit2_Callback(hObject, eventdata, handles)
+% hObject    handle to edit2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit2 as text
+%        str2double(get(hObject,'String')) returns contents of edit2 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+h2 = figure(2);
+axis image;
+movie(h2, handles.SM);
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+dur1 = str2num(get(handles.edit1, 'String'));
+dur2 = str2num(get(handles.edit2, 'String'));
+filename_idx = get(handles.listbox2, 'Value');
+filepath = ['G:\YouChanData\colorImg\' cell2mat(handles.tfnamelst(filename_idx))];
+filepath = filepath(1:length(filepath)-4);
+for i=dur1:dur2
+    filename = [filepath '\' num2str(i) '.png'];
+    SM(i-dur1+1) = im2frame(imread(filename));
+end
+handles.SM = SM;
+guidata(hObject, handles);
