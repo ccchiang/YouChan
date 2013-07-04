@@ -273,8 +273,8 @@ for i=1:length(ntframes)
     handles.ntframes(i) = sum(ntframes(1:i));
 end
 handles.ntframes = [0 handles.ntframes];
-handles.qdata = load('qdata.txt');
-handles.tdata = load('tdata.txt');
+handles.qdata = load('qdata_h.txt');
+handles.tdata = load('tdata_h.txt');
 set(handles.text5, 'String', 'Loading completed.');
 guidata(hObject, handles);
 
