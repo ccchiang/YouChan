@@ -277,8 +277,8 @@ qh = load('qdata_h.txt');
 th = load('tdata_h.txt');
 qa = load('qdata_a.txt');
 ta = load('tdata_a.txt');
-handles.qdata = [qh qa];%load('qdata_a.txt');
-handles.tdata = [th ta];%load('tdata_a.txt');
+handles.qdata = qa;%load('qdata_a.txt');
+handles.tdata = ta;%load('tdata_a.txt');
 set(handles.text5, 'String', 'Loading completed.');
 guidata(hObject, handles);
 
