@@ -15,7 +15,7 @@ function [out outd] = FindStart(test_seq, ref_seq, end_list)
         [end_cand d]= FindEnd(D(end,:));
         qlen = size(rev_test_seq,1);
         lendiff = abs(qlen-end_cand);
-        lendiff = 1-exp(-2*lendiff/qlen);
+        lendiff = 1-exp(-0.5*lendiff/qlen);
         d = (1+lendiff).* d;
         if (length(end_cand)==0)
             out(i) = -1;

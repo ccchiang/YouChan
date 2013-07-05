@@ -27,7 +27,7 @@ while (stop~=1)
     cand_len = sorted_cands(:,2)-sorted_cands(:,1)+1;
     dur = bnd1-bnd2+1;
     len = (intv(2)-intv(1)+1);
-    th = min(cand_len, len)*0.33;
+    th = min(cand_len, len)*0.5;
     self = zeros(length(scores), 1);
     self(k) = 1;
     flag = (~(dur>th|dur==cand_len)&flag)|self;
