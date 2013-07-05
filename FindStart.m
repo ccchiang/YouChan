@@ -13,9 +13,10 @@ function [out outd] = FindStart(test_seq, ref_seq, end_list)
         LD = simmx(rev_test_seq', tmp1');
         [p q D] = dp(LD);
         [end_cand d]= FindEnd(D(end,:));
-%         len = size(rev_test_seq,1);
-%         end_cand = end_cand(end_cand>0.3*len&end_cand<2.5*len);
-%         d = d(end_cand>0.3*len&end_cand<2.5*len);
+        qlen = size(rev_test_seq,1);
+        lendiff = abs(qlen-end_cand);
+        lendiff = 1-exp(-lendiff/qlen);
+        d = (1+lendiff).* d;
         if (length(end_cand)==0)
             out(i) = -1;
             outd(i) = 9999999;

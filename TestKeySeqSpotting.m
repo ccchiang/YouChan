@@ -263,18 +263,18 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.text5, 'String', 'Loading data ...');
-nqframes = load('no_qdata_m.txt');
+nqframes = load('no_qdata.txt');
 for i=1:length(nqframes)
     handles.nqframes(i) = sum(nqframes(1:i));
 end
 handles.nqframes = [0 handles.nqframes];
-ntframes = load('no_tdata_m.txt');
+ntframes = load('no_tdata.txt');
 for i=1:length(ntframes)
     handles.ntframes(i) = sum(ntframes(1:i));
 end
 handles.ntframes = [0 handles.ntframes];
-handles.qdata = load('qdata_m.txt');
-handles.tdata = load('tdata_m.txt');
+handles.qdata = load('qdata_a.txt');
+handles.tdata = load('tdata_a.txt');
 set(handles.text5, 'String', 'Loading completed.');
 guidata(hObject, handles);
 
