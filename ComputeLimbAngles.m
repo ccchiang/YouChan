@@ -37,14 +37,17 @@ for i=1:n
     vecs(:,:,i) = skeletons(:,all(i,1)*3+1:all(i,1)*3+3)- ...
                 skeletons(:,all(i,2)*3+1:all(i,2)*3+3);
     tmpv(:,:,i) = vecs(:,:,i);
-    tmpv(:,3,i) = 0;            
-    theta_xy(:,i) = sum(tmpv(:,:,i).*v_xaxis,2)/norm(tmpv(:,:,i));
+    tmpv(:,3,i) = 0;
+    vnorm = sqrt(tmpv(:,1,1).^2+tmpv(:,2,1).^2);
+    theta_xy(:,i) = sum(tmpv(:,:,i).*v_xaxis,2)./vnorm;
     tmpv(:,:,i) = vecs(:,:,i);
     tmpv(:,2,i) = 0;            
-    theta_xz(:,i) = sum(tmpv(:,:,i).*v_zaxis,2)/norm(tmpv(:,:,i));
+    vnorm = sqrt(tmpv(:,1,1).^2+tmpv(:,2,1).^2);
+    theta_xz(:,i) = sum(tmpv(:,:,i).*v_zaxis,2)./vnorm;
     tmpv(:,:,i) = vecs(:,:,i);
     tmpv(:,1,i) = 0;            
-    theta_yz(:,i) = sum(tmpv(:,:,i).*v_yaxis,2)/norm(tmpv(:,:,i));
+    vnorm = sqrt(tmpv(:,1,1).^2+tmpv(:,2,1).^2);
+    theta_yz(:,i) = sum(tmpv(:,:,i).*v_yaxis,2)./vnorm;
 end
 out = zeros(no_skeletons, 3*n);
 for i = 1:n
