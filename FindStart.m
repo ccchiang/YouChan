@@ -14,20 +14,26 @@ function [out outd] = FindStart(test_seq, ref_seq, end_list)
         [p q D] = dp(LD);
         [end_cand d]= FindEnd(D(end,:));
         qlen = size(rev_test_seq,1);
-        lendiff = abs(qlen-end_cand);
-        lendiff = 1-exp(-0.01*lendiff/qlen);
-        d = (1+lendiff).* d;
-        if (length(end_cand)==0)
+        len_factor = 0.5;
+        mask = end_cand>len_factor*qlen;
+        end_cand = end_cand(mask);
+        d = d(mask);
+%         lendiff = abs(qlen-end_cand);
+%         lendiff = 1-exp(-0.1*lendiff/qlen);
+%         d = (1+lendiff).* d;
+        if (isempty(end_cand))
             out(i) = -1;
             outd(i) = 9999999;
         else
-            tmp_d = [9999999 d 9999999]; 
-            for k=2:length(tmp_d)-1
-                if ((tmp_d(k)<tmp_d(k-1))&&((tmp_d(k)<tmp_d(k+1))||abs(tmp_d(k)-tmp_d(k+1))<1.0e-5))
-                    out(i) = end_cand(k-1);
-                    outd(i) = tmp_d(k);
-                    break;
-                end
-            end
+            out(i) = end_cand(d==min(d));
+            outd(i) = min(d);
+%             tmp_d = [9999999 d 9999999]; 
+%             for k=2:length(tmp_d)-1
+%                 if ((tmp_d(k)<tmp_d(k-1))&&((tmp_d(k)<tmp_d(k+1))||abs(tmp_d(k)-tmp_d(k+1))<1.0e-5))
+%                     out(i) = end_cand(k-1);
+%                     outd(i) = tmp_d(k);
+%                     break;
+%                 end
+%             end
         end
     end
