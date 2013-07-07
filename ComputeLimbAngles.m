@@ -33,10 +33,16 @@ for i=1:n
     vecs(:,:,i) = skeletons(:,all(i,1)*3-2:all(i,1)*3)- ...
                 skeletons(:,all(i,2)*3-2:all(i,2)*3);
     tmpv(:,:,i) = vecs(:,:,i);
-    vnorm = sqrt(tmpv(:,1,1).^2+tmpv(:,2,1).^2);
-    theta_x(:,i) = sum(tmpv(:,:,i).*v_xaxis,2)./vnorm;
-    theta_y(:,i) = sum(tmpv(:,:,i).*v_zaxis,2)./vnorm;
-    theta_z(:,i) = sum(tmpv(:,:,i).*v_yaxis,2)./vnorm;
+    vnorm = sqrt(tmpv(:,1,i).^2+tmpv(:,2,i).^2+tmpv(:,3,i).^2);
+    dpx = sum(tmpv(:,:,i).*v_xaxis,2)./vnorm;
+    dpy = sum(tmpv(:,:,i).*v_yaxis,2)./vnorm;
+    dpz = sum(tmpv(:,:,i).*v_zaxis,2)./vnorm;
+%     if (sum(abs(dpz)>1)||sum(abs(dpy)>1)||sum(abs(dpz)>1))
+%         kkk = 1;
+%     end
+    theta_x(:,i) = acos(dpx);
+    theta_y(:,i) = acos(dpy);
+    theta_z(:,i) = acos(dpz);
 end
 out = zeros(no_skeletons, 3*n);
 for i = 1:n

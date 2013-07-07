@@ -127,7 +127,7 @@ filepath = ['G:\YouChanData\colorImg\' cell2mat(handles.qfnamelst(filename_idx))
 filepath = filepath(1:length(filepath)-4);
 for i=dur(1):dur(2)
     filename = [filepath '\' num2str(i) '.png'];
-    QM(i-dur(1)+1) = im2frame(imread(filename));
+    QM(i-dur(1)+1) = im2frame(imresize(imread(filename),0.5));
 end
 handles.QM = QM;
 guidata(hObject, handles);
@@ -189,7 +189,7 @@ filepath = ['G:\YouChanData\colorImg\' cell2mat(handles.tfnamelst(filename_idx))
 filepath = filepath(1:length(filepath)-4);
 for i=dur(1):dur(2)
     filename = [filepath '\' num2str(i) '.png'];
-    TM(i-dur(1)+1) = im2frame(imread(filename));
+    TM(i-dur(1)+1) = im2frame(imresize(imread(filename),0.5));
 end
 handles.TM = TM;
 guidata(hObject, handles);
@@ -244,8 +244,8 @@ cand_list = [start_list' end_list'  min(d1',d2') d1' d2'] % Compose all candidat
 best1 = cand_list(find(cand_list(:,4)==min(cand_list(:,4))),:) % Find the best one according to d1 distances
 best2 = cand_list(find(cand_list(:,5)==min(cand_list(:,5))),:) % Find the best one according to d2 distances
 best = cand_list(find(cand_list(:,3)==min(cand_list(:,3))),:) % Find the best one according to min(d1,d2)
-scalefactor1 = 2.5;
-scalefactor2 = 0.5;
+scalefactor1 = 4;
+scalefactor2 = 0.25;
 len = size(handles.qseq, 1);
 [handles.cand handles.scores] = RemoveRedundant(len, scalefactor1, scalefactor2, cand_list(:,1:2), cand_list(:,3));
 durs = {}
@@ -273,8 +273,6 @@ for i=1:length(ntframes)
     handles.ntframes(i) = sum(ntframes(1:i));
 end
 handles.ntframes = [0 handles.ntframes];
-qh = load('qdata_h.txt');
-th = load('tdata_h.txt');
 qa = load('qdata_a.txt');
 ta = load('tdata_a.txt');
 handles.qdata = qa;%load('qdata_a.txt');
@@ -380,7 +378,7 @@ filepath = ['G:\YouChanData\colorImg\' cell2mat(handles.tfnamelst(filename_idx))
 filepath = filepath(1:length(filepath)-4);
 for i=dur1:dur2
     filename = [filepath '\' num2str(i) '.png'];
-    SM(i-dur1+1) = im2frame(imread(filename));
+    SM(i-dur1+1) = im2frame(imresize(imread(filename),0.5));
 end
 handles.SM = SM;
 guidata(hObject, handles);
