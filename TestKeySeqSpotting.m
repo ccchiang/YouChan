@@ -296,9 +296,7 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-h1 = figure(1);
-axis image;
-movie(h1, handles.QM);
+h1 = figure(1), axis image, axis tight, movie(handles.QM);
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
@@ -306,9 +304,7 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-h2 = figure(2);
-axis image;
-movie(h2, handles.TM);
+h2 = figure(2),axis image, axis tight, movie(handles.TM);
 
 
 
