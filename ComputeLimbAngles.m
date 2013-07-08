@@ -16,10 +16,22 @@ lefthand = [2 8];
 righthand = [2 12];
 leftfoot = [2 16];
 rightfoot = [2 20];
+headlhand = [4 8];
+headrhand = [4 12];
+headlelbow = [4 6];
+headrelbow = [4 10];
+leftuleg = [13 14];
+rightuleg = [17 18];
+leftlleg = [14 15];
+rightlleg = [18 19];
+leftdarm = [6 7];
+rightdarm = [10 11];
+
 all = [head;neck;leftshoulder;rightshoulder;leftelbow;...
     rightelbow;leftwrist;rightwrist;leftknee;rightknee;...
     leftankel;rightankel;lefthand;righthand;...
-    leftfoot;rightfoot];
+    leftfoot;rightfoot;headlhand;headrhand;...
+    headlelbow;headrelbow;leftuleg;rightuleg;leftlleg;rightlleg];
 n = size(all, 1);
 vecs = zeros(no_skeletons, 3, n);
 tmpv = zeros(no_skeletons, 3, n);
