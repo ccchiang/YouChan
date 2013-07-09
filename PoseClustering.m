@@ -180,6 +180,7 @@ set(handles.text3, 'String', ' ');
 k = str2num(get(handles.edit2, 'String'));
 set(handles.listbox1, 'String', 1:k);
 [handles.labels, handles.centers, handles.compactness] = kmeans(handles.data, k);
+save -ascii 'centers.txt' handles.centers;
 set(handles.text3, 'String', 'Done');
 guidata(hObject, handles);
 
