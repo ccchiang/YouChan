@@ -1,7 +1,7 @@
 tdata = load('tdata_a.txt');
 qdata = load('qdata_a.txt');
 k = 50;
-[labels, centers, compactness] = kmeans(qdata, k);
+[labels, centers, compactness] = kmeans(tdata, k, 'MaxIter', 500);
 matcher = cv.DescriptorMatcher('BruteForce');
 matcher.add(centers);
 matches1 = matcher.match(qdata);
