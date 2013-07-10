@@ -1,5 +1,5 @@
 format long;
-dim = 90;
+dim = 1;
 [frames cutpos] = GenFrames(50, dim, 0.1);
 %load('frames.txt');
 %load('cutpos.txt');
